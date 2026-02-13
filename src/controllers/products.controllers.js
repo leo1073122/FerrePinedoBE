@@ -6,48 +6,81 @@ import {
   updateProductService,
 } from "../services/productos.services.js";
 
-export const getProductsController = async (req, res) => {
-  const products = await getProductsService();
-  res.status(201).json(products);
+import { sendResponse } from "../utils/responseHandler.js";
+
+// Obtener todos los productos
+export const getProductsController = async (req, res, next) => {
+  try {
+    const products = await getProductsService();
+    sendResponse(res, products, "Productos encontrados");
+  } catch (err) {
+    next(err);
+  }
 };
 
-export const getProductController = async (req, res) => {
-  const { id } = req.params;
-  const product = await getProductService(id);
-  res.status(201).json(product);
+// Obtener un producto por ID
+export const getProductController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const product = await getProductService(id);
+
+    if (!product) {
+      return sendResponse(res, null, "Producto no encontrado", false, 404);
+    }
+
+    sendResponse(res, product, "Producto encontrado");
+  } catch (err) {
+    next(err);
+  }
 };
 
-export const createProductController = async (req, res) => {
+// Crear producto
+export const createProductController = async (req, res, next) => {
   try {
     const newProduct = await createProductService(req.body);
-    res.status(201).json(newProduct);
-    console.log(req.body);
-  } catch (error) {
-    res.status(500).json(error);
+    sendResponse(res, newProduct, "Producto creado correctamente", true, 201);
+  } catch (err) {
+    next(err);
   }
 };
 
-export const updateProductController = async (req, res) => {
+// Actualizar producto
+export const updateProductController = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const UpdatedProduct = await updateProductService(id, req.body);
+    const updated = await updateProductService(id, req.body);
 
-    res.status(200).json(UpdatedProduct);
-  } catch (error) {
-    res.status(500).json({ message: "Error interno del servidor" });
+    if (!updated) {
+      return sendResponse(
+        res,
+        null,
+        "Producto no encontrado o sin cambios",
+        false,
+        404
+      );
+    }
+    const updatedProduct = await getProductService(id);
+
+    sendResponse(res, updatedProduct, "Producto actualizado");
+  } catch (err) {
+    next(err);
   }
 };
 
-export const deleteProductController = async (req, res) => {
+// Eliminar producto (soft delete)
+export const deleteProductController = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const deletedProduct = await deleteProductService(id);
-    if (deletedProduct == 1) res.status(204);
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
+    const deleted = await deleteProductService(id);
+
+    if (!deleted) {
+      return sendResponse(res, null, "Producto no encontrado", false, 404);
+    }
+
+    sendResponse(res, null, "Producto eliminado");
+  } catch (err) {
+    next(err);
   }
 };

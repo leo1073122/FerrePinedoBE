@@ -8,8 +8,8 @@ import {
 } from "../controllers/products.controllers.js";
 import { validateProductExists } from "../middlewares/validateProduct.js";
 import { validateSchema } from "../middlewares/validateSchema.js";
-import { productoSchema } from "../schemas/products.schemas.js";
-import { updateProductSchema } from "../schemas/updateProduct.schemas.js";
+import { productoSchema } from "../schemas/schemasProducts/products.schemas.js";
+import { updateProductSchema } from "../schemas/schemasProducts/updateProduct.schemas.js";
 
 const router = Router();
 
