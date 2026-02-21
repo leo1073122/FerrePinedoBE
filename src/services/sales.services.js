@@ -103,7 +103,6 @@ export const createSaleFullServices = async ({
       })),
     };
   } catch (error) {
-    await connection.rollback();
     throw error;
   }
 };
@@ -121,8 +120,8 @@ export const getProductSalesServices = async (idVenta) => {
       dv.cantidad,
       dv.precio_unitario,
       p.nombre AS nombre_producto
-    FROM detalle_ventas dv
-    INNER JOIN productos p ON dv.id_producto = p.id_producto
+    FROM DETALLE_VENTAS dv
+    INNER JOIN PRODUCTOS p ON dv.id_producto = p.id_producto
     WHERE dv.id_venta = ?
   `;
 

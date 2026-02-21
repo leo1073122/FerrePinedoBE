@@ -14,15 +14,15 @@ export const getActiveCashServices = async () => {
     SELECT 
       c.*,
       (SELECT COALESCE(SUM(total), 0) 
-       FROM ventas 
+       FROM VENTAS 
        WHERE id_caja = c.id_caja) AS total_ventas,
       (SELECT COALESCE(SUM(monto), 0) 
-       FROM gastos 
+       FROM GASTOS 
        WHERE id_caja = c.id_caja) AS total_gastos,
       (SELECT COUNT(*) 
-       FROM ventas 
+       FROM VENTAS 
        WHERE id_caja = c.id_caja) AS total_transacciones
-    FROM caja c
+    FROM CAJA c
     WHERE c.estado = 'ABIERTA'
     ORDER BY c.fecha_apertura DESC
     LIMIT 1

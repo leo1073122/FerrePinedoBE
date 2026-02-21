@@ -17,7 +17,7 @@ export const createProductService = async (newProduct) => {
   const { nombre, precio, unidad_medida, stock, activo } = newProduct;
 
   const [res] = await pool.query(
-    "INSERT INTO productos (nombre,precio,unidad_medida,stock,activo) VALUES (?,?,?,?,?)",
+    "INSERT INTO PRODUCTOS (nombre,precio,unidad_medida,stock,activo) VALUES (?,?,?,?,?)",
     [nombre, precio, unidad_medida, stock, activo],
   );
 
