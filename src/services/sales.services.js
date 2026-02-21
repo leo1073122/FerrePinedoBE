@@ -87,7 +87,7 @@ export const createSaleFullServices = async ({
 
     if (bulkValues.length > 0) {
       await pool.query(
-        "INSERT INTO DETALLE_VENTAS (id_venta, id_producto, cantidad, precio_unitario, subtotal) VALUES ?",
+        "INSERT INTO detalle_ventas (id_venta, id_producto, cantidad, precio_unitario, subtotal) VALUES ?",
         [bulkValues],
       );
     }
