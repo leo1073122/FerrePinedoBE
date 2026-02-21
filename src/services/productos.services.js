@@ -39,7 +39,7 @@ export const updateProductService = async (id, data) => {
   }
 
   const [result] = await pool.query(
-    `UPDATE productos SET ${fields} WHERE id_producto = ?`,
+    `UPDATE PRODUCTOS SET ${fields} WHERE id_producto = ?`,
     [...values, id],
   );
 

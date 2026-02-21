@@ -36,7 +36,7 @@ export const getActiveCashServices = async () => {
 export const openCashRegisterServices = async (data) => {
   const { monto_inicial } = data;
   const [result] = await pool.query(
-    `INSERT INTO caja (fecha_apertura, monto_inicial, estado)
+    `INSERT INTO CAJA (fecha_apertura, monto_inicial, estado)
    VALUES (NOW(), ?, 'ABIERTA')`,
     [monto_inicial],
   );
@@ -58,7 +58,7 @@ export const closeCashRegisterServices = async (id_caja, monto_real) => {
   }
 
   const [res] = await pool.query(
-    "UPDATE caja SET estado = 'CERRADA', fecha_cierre = NOW(), monto_real = ? WHERE id_caja = ?",
+    "UPDATE CAJA SET estado = 'CERRADA', fecha_cierre = NOW(), monto_real = ? WHERE id_caja = ?",
     [monto_real, id_caja],
   );
   return res.affectedRows;

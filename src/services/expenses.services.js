@@ -1,7 +1,6 @@
 import { pool } from "../db.js";
 
 export const createExpenseService = async ({ id_caja, monto, descripcion }) => {
-  // Verificar si la caja está abierta
   const [caja] = await pool.query("SELECT estado FROM CAJA WHERE id_caja = ?", [id_caja]);
   
   if (!caja.length || caja[0].estado !== 'ABIERTA') {
